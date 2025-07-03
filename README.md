@@ -1,4 +1,4 @@
-# 🖼️ CaptionCrafter
+# 🖼️ SnapScript
 
 AI-powered Image Caption Generator that turns your photos into cool, catchy, and Instagram-worthy captions — with just one click!
 
