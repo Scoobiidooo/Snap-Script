@@ -2,28 +2,25 @@ from transformers import BlipProcessor, BlipForConditionalGeneration
 from PIL import Image
 import random
 
-# Load BLIP model
+# Load model and processor
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
 
-# Style templates for Instagram captions
-style_templates = [
-    "📸 {caption} #InstaVibes",
-    "✨ Just wow — {caption} 💫",
-    "Feeling it: {caption} 😍 #AestheticGoals",
-    "When life gives you moments like this... {caption} 💕",
-    "Unfiltered magic: {caption} 🌈 #DreamyVibes",
-    "{caption} ❤️ #CapturedWithLove",
-    "Serving looks with this vibe: {caption} 🔥",
-    "Mood: {caption} 🌟 #WeekendGoals"
+funny_endings = [
+    "…because calories don’t count today 😜",
+    "vibes too strong 💥",
+    "caption game = strong 💅",
+    "just your daily dose of wow ✨",
+    "can you even handle this?! 🔥",
+    "this goes straight to the gram 📸",
+    "serving looks and pixels 🤳",
+    "I came. I saw. I captioned. 🎯"
 ]
 
-def generate_caption(image_file):
-    image = Image.open(image_file).convert('RGB')
+def generate_caption(image_path):
+    image = Image.open(image_path).convert('RGB')
     inputs = processor(images=image, return_tensors="pt")
-    output = model.generate(**inputs, num_return_sequences=1, do_sample=True, top_k=50)
+    output = model.generate(**inputs)
     caption = processor.decode(output[0], skip_special_tokens=True)
-
-    # Make it Instagram-style
-    styled_caption = random.choice(style_templates).format(caption=caption.capitalize())
-    return styled_caption
+    caption += " " + random.choice(funny_endings)
+    return caption
